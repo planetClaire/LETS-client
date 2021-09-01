@@ -81,6 +81,7 @@ export class Login extends Component {
 	}
 
 	async processLoginCallback() {
+		const url = window.location.href;
 		const result = await authService.completeSignIn(url);
 		switch (result.status) {
 			case AUTHENTICATION_RESULT_STATUS.REDIRECT:
