@@ -3,7 +3,11 @@ import { Route } from 'react-router';
 
 import { Login } from './Login';
 import { Logout } from './Logout';
-import { APPLICATION_PATHS, LOGIN_ACTIONS, LOGOUT_ACTIONS } from '../Constants';
+import {
+	APPLICATION_PATHS,
+	LOGIN_ACTIONS,
+	LOGOUT_ACTIONS,
+} from '../../Constants';
 
 export default class AuthorizationRoutes extends Component {
 	render() {

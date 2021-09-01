@@ -1,6 +1,6 @@
 import { UserManager } from 'oidc-client';
 
-import { AUTHENTICATION_RESULT_STATUS, CONFIG, IDENTITY } from '../Constants';
+import { AUTHENTICATION_RESULT_STATUS, CONFIG, IDENTITY } from './Constants';
 
 export class AuthorizeService {
 	_callbacks = [];

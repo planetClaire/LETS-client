@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 
-import authService from './AuthorizeService';
+import authService from '../../AuthorizeService';
 import {
 	LOGIN_ACTIONS,
 	QUERY_PARAMETER_NAMES,
 	APPLICATION_PATHS,
 	AUTHENTICATION_RESULT_STATUS,
-} from '../Constants';
+} from '../../Constants';
 import Success from '../alerts/Success';
 
 // The main responsibility of this component is to handle the user's login process.

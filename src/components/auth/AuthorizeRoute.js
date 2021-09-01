@@ -2,8 +2,8 @@ import React from 'react';
 import { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-import { APPLICATION_PATHS, QUERY_PARAMETER_NAMES } from '../Constants';
-import authService from './AuthorizeService';
+import { APPLICATION_PATHS, QUERY_PARAMETER_NAMES } from '../../Constants';
+import authService from '../../AuthorizeService';
 import Loading from '../alerts/Loading';
 
 export default class AuthorizeRoute extends Component {

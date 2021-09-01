@@ -1,8 +1,9 @@
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
 import Home from './pages/Home';
 import Members from './pages/Members';
-import AuthorizeRoute from './auth/AuthorizeRoute';
-import AuthorizeRoutes from './auth/AuthorizeRoutes';
+import AuthorizeRoute from './components/auth/AuthorizeRoute';
+import AuthorizeRoutes from './components/auth/AuthorizeRoutes';
 import { AUTH_PREFIX } from './Constants';
 
 import './index.css';

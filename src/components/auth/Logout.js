@@ -1,13 +1,13 @@
 import React from 'react';
 import { Component } from 'react';
 
-import authService from './AuthorizeService';
+import authService from '../../AuthorizeService';
 import {
 	QUERY_PARAMETER_NAMES,
 	LOGOUT_ACTIONS,
 	APPLICATION_PATHS,
 	AUTHENTICATION_RESULT_STATUS,
-} from '../Constants';
+} from '../../Constants';
 import Loading from '../alerts/Loading';
 import Success from '../alerts/Success';
 
