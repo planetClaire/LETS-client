@@ -1,10 +1,21 @@
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Members from './pages/Members';
+import AuthorizeRoute from './auth/AuthorizeRoute';
+import AuthorizeRoutes from './auth/AuthorizeRoutes';
+import { AUTH_PREFIX } from './Constants';
+
 import './index.css';
 
 function App() {
 	return (
-		<div className="App">
-			<p className="text-lg font-bold">Hello world</p>
-		</div>
+		<BrowserRouter>
+			<Switch>
+				<Route exact path="/" component={Home} />
+				<AuthorizeRoute path="/members" component={Members} />
+				<Route path={AUTH_PREFIX} component={AuthorizeRoutes} />
+			</Switch>
+		</BrowserRouter>
 	);
 }
 
