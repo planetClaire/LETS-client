@@ -8,6 +8,8 @@ const DEV = {
 
 export const CONFIG = process.env.NODE_ENV === 'development' ? DEV : PROD;
 
+export const LETS_GROUP_NAME = 'Your LETS Group';
+
 export const LOGIN_ACTIONS = {
 	LOGIN: 'login',
 	LOGIN_CALLBACK: 'login-callback',
