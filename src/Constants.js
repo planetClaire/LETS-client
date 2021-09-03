@@ -2,8 +2,7 @@ const PROD = {};
 
 const DEV = {
 	URL: 'http://localhost:3000',
-	IDENTITY_URL: 'https://localhost:5001',
-	GRAPHQL_URL: 'https://localhost:5002',
+	GRAPHQL_URL: 'https://localhost:5002/graphql',
 };
 
 export const CONFIG = process.env.NODE_ENV === 'development' ? DEV : PROD;

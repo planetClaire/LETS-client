@@ -1,24 +1,20 @@
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
-import { MenuIcon, XIcon, PuzzleIcon } from '@heroicons/react/outline';
+import { MenuIcon, XIcon } from '@heroicons/react/outline';
 
 import { LETS_GROUP_NAME } from '../../Constants';
+import { useAuth } from '../auth/useAuth';
+import Logo from '../Logo';
 
-// const user = {
-// 	name: 'Tom Cook',
-// 	email: 'tom@example.com',
-// 	imageUrl:
-// 		'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-// };
 const navigation = [
 	{ name: 'Home', href: '/', current: true },
 	{ name: 'Members', href: '/members', current: false },
+	{ name: 'Localities', href: '/localities', current: false },
 ];
 const userNavigation = [
 	{ name: 'Your Profile', href: '#' },
 	{ name: 'Settings', href: '#' },
-	{ name: 'Sign out', href: '#' },
 ];
 
 function classNames(...classes) {
@@ -26,7 +22,8 @@ function classNames(...classes) {
 }
 
 export default function MainMenu() {
-	const isAuthenticated = false;
+	const auth = useAuth();
+
 	return (
 		<Disclosure as="nav" className="bg-white border-b border-gray-200">
 			{({ open }) => (
@@ -36,8 +33,7 @@ export default function MainMenu() {
 							<div className="flex">
 								<div className="flex-shrink-0 flex items-center">
 									<Link to="/">
-										{/* Replace with your own logo */}
-										<PuzzleIcon className="h-9 w-9 inline text-indigo-600 stroke-current mr-2" />
+										<Logo size="9" className="inline mr-2" />
 										<span className="sr-only lg:not-sr-only font-bold">
 											{LETS_GROUP_NAME}
 										</span>
@@ -59,7 +55,7 @@ export default function MainMenu() {
 									))}
 								</div>
 							</div>
-							{isAuthenticated && (
+							{auth.user && (
 								<div className="hidden sm:ml-6 sm:flex sm:items-center">
 									{/* Profile dropdown */}
 									<Menu as="div" className="ml-3 relative">
@@ -70,8 +66,11 @@ export default function MainMenu() {
 												</span>
 												<img
 													className="h-8 w-8 rounded-full"
-													src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-													// alt={user.email}
+													src={
+														auth.user.photoURL ||
+														`https://avatars.dicebear.com/api/bottts/${auth.user.uid}.svg`
+													}
+													alt={auth.user.displayName}
 												/>
 											</Menu.Button>
 										</div>
@@ -100,6 +99,13 @@ export default function MainMenu() {
 														)}
 													</Menu.Item>
 												))}
+												<button
+													onClick={() => auth.signout()}
+													className="block px-4 py-2 text-sm text-gray-700 w-full text-left hover:bg-gray-100"
+													role="menuitem"
+												>
+													Logout
+												</button>
 											</Menu.Items>
 										</Transition>
 									</Menu>

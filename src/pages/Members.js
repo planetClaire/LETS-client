@@ -1,6 +1,12 @@
 import Header from '../components/Header';
+import useRequireAuth from '../components/auth/useRequireAuth';
+import Loading from '../components/alerts/Loading';
 
 export default function Members() {
+	const auth = useRequireAuth();
+	if (!auth) {
+		return <Loading />;
+	}
 	return (
 		<>
 			<Header title="Members"></Header>
