@@ -1,18 +1,18 @@
-// adapted from https://usehooks.com/
-
 import { useEffect } from 'react';
-import { useAuth } from './useAuth.js';
-import { useRouter } from './useRouter.js';
+import { useHistory, useLocation } from 'react-router-dom';
 
-export default function useRequireAuth(redirectUrl = '/register') {
+import { useAuth } from './useAuth';
+
+export default function useRequireAuth(redirectUrl = '/login') {
 	const auth = useAuth();
-	const router = useRouter();
-	// If auth.user is false that means we're not
-	// logged in and should redirect.
+	const history = useHistory();
+	const location = useLocation();
+	const pathname = location.pathname;
 	useEffect(() => {
+		// check for auth.user === false here rather than !auth.user since the status is set to false onAuthStateChanged)
 		if (auth.user === false) {
-			router.push(redirectUrl);
+			history.push(redirectUrl, pathname);
 		}
-	}, [auth, router, redirectUrl]);
+	}, [auth, history, redirectUrl, pathname]);
 	return auth;
 }

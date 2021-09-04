@@ -6,7 +6,10 @@ import useRequireAuth from '../components/auth/useRequireAuth';
 import { useEffect } from 'react';
 
 export default function Localities() {
-	const auth = useRequireAuth();
+	const requireAuth = useRequireAuth();
+	if (!requireAuth) {
+		return <Loading />;
+	}
 
 	const GET_LOCALITIES = gql`
 		query GetLocalities {

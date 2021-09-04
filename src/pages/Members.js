@@ -3,8 +3,8 @@ import useRequireAuth from '../components/auth/useRequireAuth';
 import Loading from '../components/alerts/Loading';
 
 export default function Members() {
-	const auth = useRequireAuth();
-	if (!auth) {
+	const requireAuth = useRequireAuth();
+	if (!requireAuth) {
 		return <Loading />;
 	}
 	return (
