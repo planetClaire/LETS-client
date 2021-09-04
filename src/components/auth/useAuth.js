@@ -34,12 +34,15 @@ function useProvideAuth() {
 	// Wrap any Firebase methods we want to use making sure ...
 	// ... to save the user to state.
 	const signin = (email, password) => {
-		return signInWithEmailAndPassword(auth, email, password).then(
-			(response) => {
+		return signInWithEmailAndPassword(auth, email, password)
+			.then((response) => {
 				setUser(response.user);
 				return response.user;
-			}
-		);
+			})
+			.catch((error) => {
+				return Promise.reject(error.code);
+			});
+	};
 	};
 	const signinWithGoogle = () => {
 		signInWithPopup(auth, googleProvider)
