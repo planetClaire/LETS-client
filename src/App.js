@@ -16,6 +16,7 @@ import Localities from './pages/Localities';
 import MainMenu from './components/navigation/MainMenu';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
+import VerifyEmail from './components/auth/VerifyEmail';
 import { useAuth } from './components/auth/useAuth';
 import Loading from './components/alerts/Loading';
 import Alert from './components/alerts/Error';
@@ -90,10 +91,11 @@ function App() {
 				<div className="min-h-screen bg-gray-50 py-6 sm:px-6 lg:px-8">
 					{error && <Alert message={error} />}
 					<Route exact path="/" component={Home} />
-					<Route exact path="/members" component={Members} />
-					<Route exact path="/login" component={Login} />
-					<Route exact path="/register" component={Register} />
+					<Route path="/members" component={Members} />
 					<Route path="/localities" component={Localities} />
+					<Route path="/login" component={Login} />
+					<Route path="/register" component={Register} />
+					<Route path="/verifyEmail" component={VerifyEmail} />
 				</div>
 			</BrowserRouter>
 		</ApolloProvider>

@@ -7,6 +7,7 @@ import {
 	GoogleAuthProvider,
 	signInWithPopup,
 	createUserWithEmailAndPassword,
+	sendEmailVerification,
 	signInWithEmailAndPassword,
 	signOut,
 } from 'firebase/auth';
@@ -43,6 +44,14 @@ function useProvideAuth() {
 				return Promise.reject(error.code);
 			});
 	};
+	const verifyEmail = () => {
+		return sendEmailVerification(auth, user)
+			.then((response) => {
+				return response;
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	};
 	const signinWithGoogle = () => {
 		signInWithPopup(auth, googleProvider)
@@ -111,6 +120,7 @@ function useProvideAuth() {
 	return {
 		user,
 		signin,
+		verifyEmail,
 		signinWithGoogle,
 		signup,
 		signout,
