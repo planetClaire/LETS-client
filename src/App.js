@@ -23,6 +23,7 @@ import Alert from './components/alerts/Error';
 
 import './index.css';
 import { CONFIG } from './Constants';
+import MemberRoute from './components/auth/MemberRoute';
 
 function App() {
 	const auth = useAuth();
@@ -91,8 +92,8 @@ function App() {
 				<div className="min-h-screen bg-gray-50 py-6 sm:px-6 lg:px-8">
 					{error && <Alert message={error} />}
 					<Route exact path="/" component={Home} />
-					<Route path="/members" component={Members} />
-					<Route path="/localities" component={Localities} />
+					<MemberRoute path="/members" component={Members} />
+					<MemberRoute path="/localities" component={Localities} />
 					<Route path="/login" component={Login} />
 					<Route path="/register" component={Register} />
 					<Route path="/verifyEmail" component={VerifyEmail} />

@@ -2,14 +2,8 @@ import { useQuery, gql } from '@apollo/client';
 
 import Loading from '../components/alerts/Loading';
 import Alert from '../components/alerts/Error';
-import useRequireAuth from '../components/auth/useRequireAuth';
 
 export default function Localities() {
-	const requireAuth = useRequireAuth();
-	if (!requireAuth) {
-		return <Loading />;
-	}
-
 	const GET_LOCALITIES = gql`
 		query GetLocalities {
 			localities {
