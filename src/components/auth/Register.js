@@ -5,13 +5,28 @@ import { LETS_GROUP_NAME } from '../../Constants';
 import Logo from '../Logo';
 import { ReactComponent as GoogleLogo } from '../../images/Google__G__Logo.svg';
 import { useAuth } from '../auth/useAuth';
+import { useState } from 'react';
+import Success from '../alerts/Success';
+import Alert from '../alerts/Error';
 
 export default function Register() {
 	const auth = useAuth();
+	const [message, setMessage] = useState();
+	const [errorMessage, setErrorMessage] = useState();
 	const { register, handleSubmit } = useForm();
-	const onSubmit = (data) => auth.signup(data.email, data.password);
+	const onSubmit = (data) =>
+		auth.signup(data.email, data.password).then(
+			() => {
+				setMessage('Please check your email for a verification link');
+			},
+			(errorCode) => {
+				setErrorMessage(`Error: ${errorCode.replace('-', ' ')}`);
+			}
+		);
 	return (
 		<div className="flex flex-col justify-center ">
+			{message && <Success message={message} />}
+			{errorMessage && <Alert message={errorMessage} />}
 			<div className="sm:mx-auto sm:w-full sm:max-w-md">
 				<Logo />
 				<h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -80,7 +95,6 @@ export default function Register() {
 							<button
 								type="submit"
 								className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-								//onClick={() => auth.signup()}
 							>
 								Get started
 							</button>

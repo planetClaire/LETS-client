@@ -8,10 +8,12 @@ import {
 	signInWithPopup,
 	createUserWithEmailAndPassword,
 	sendEmailVerification,
+	applyActionCode,
 	signInWithEmailAndPassword,
 	signOut,
 } from 'firebase/auth';
 import { FIREBASE_CONFIG } from '../../FirebaseConfig';
+import { CONFIG } from '../../Constants';
 
 // Add your Firebase credentials
 initializeApp(FIREBASE_CONFIG);
@@ -44,14 +46,12 @@ function useProvideAuth() {
 				return Promise.reject(error.code);
 			});
 	};
-	const verifyEmail = () => {
-		return sendEmailVerification(auth, user)
-			.then((response) => {
-				return response;
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+	const verifyEmail = (user) => {
+		return sendEmailVerification(user, {
+			url: CONFIG.URL,
+		}).catch((error) => {
+			return Promise.reject(error.code);
+		});
 	};
 	const signinWithGoogle = () => {
 		signInWithPopup(auth, googleProvider)
@@ -79,12 +79,15 @@ function useProvideAuth() {
 			});
 	};
 	const signup = (email, password) => {
-		return createUserWithEmailAndPassword(auth, email, password).then(
-			(response) => {
+		return createUserWithEmailAndPassword(auth, email, password)
+			.then((response) => {
 				setUser(response.user);
+				verifyEmail(response.user);
 				return response.user;
-			}
-		);
+			})
+			.catch((error) => {
+				return Promise.reject(error.code);
+			});
 	};
 	const signout = () => {
 		return signOut(auth).then(() => {
