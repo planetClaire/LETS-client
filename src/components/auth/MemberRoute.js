@@ -1,16 +1,25 @@
 import { useEffect, useState } from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import { useLazyQuery } from '@apollo/client';
 
 import { useAuth } from './useAuth';
+import { GET_MEMBER } from '../../graphql/fields';
 
 export default function MemberRoute({ component: Component, ...rest }) {
-	let auth = useAuth();
-	let [user, setUser] = useState();
+	const auth = useAuth();
+	const [user, setUser] = useState();
+
+	const [getMember, { loading, error, data }] = useLazyQuery(GET_MEMBER);
+
 	useEffect(() => {
 		if (auth.user !== undefined && auth.user !== null) {
 			setUser(auth.user);
+			getMember({
+				variables: { id: auth.user.uid },
+			});
 		}
-	}, [auth]);
+	}, [auth, getMember]);
+
 	return (
 		user !== undefined && (
 			<Route
@@ -27,6 +36,12 @@ export default function MemberRoute({ component: Component, ...rest }) {
 						);
 					} else if (!user.emailVerified) {
 						return <Redirect to={{ pathname: '/verifyEmail' }} />;
+					} else if (
+						data === undefined ||
+						!data.member ||
+						!data.member.approved
+					) {
+						return <Redirect to="/setupMember" />;
 					}
 					return <Component />;
 				}}

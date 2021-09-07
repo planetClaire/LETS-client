@@ -24,6 +24,7 @@ import Alert from './components/alerts/Error';
 import './index.css';
 import { CONFIG } from './Constants';
 import MemberRoute from './components/auth/MemberRoute';
+import SetupMember from './components/auth/SetupMember';
 
 function App() {
 	const auth = useAuth();
@@ -51,7 +52,7 @@ function App() {
 		});
 
 		const authLink = setContext(async (_, { headers }) => {
-			let token = auth && (await auth.user.getIdToken());
+			let token = auth && auth.user && (await auth.user.getIdToken());
 			// return the headers to the context so httpLink can read them
 			return {
 				headers: {
@@ -97,6 +98,7 @@ function App() {
 					<Route path="/login" component={Login} />
 					<Route path="/register" component={Register} />
 					<Route path="/verifyEmail" component={VerifyEmail} />
+					<Route path="/setupMember" component={SetupMember} />
 				</div>
 			</BrowserRouter>
 		</ApolloProvider>
