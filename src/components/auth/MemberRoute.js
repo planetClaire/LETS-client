@@ -14,9 +14,11 @@ export default function MemberRoute({ component: Component, ...rest }) {
 	useEffect(() => {
 		if (auth.user !== undefined && auth.user !== null) {
 			setUser(auth.user);
-			getMember({
-				variables: { id: auth.user.uid },
-			});
+			if (auth.user) {
+				getMember({
+					variables: { id: auth.user.uid },
+				});
+			}
 		}
 	}, [auth, getMember]);
 
