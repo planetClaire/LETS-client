@@ -47,7 +47,7 @@ function useProvideAuth() {
 	};
 	const verifyEmail = (user) => {
 		return sendEmailVerification(user, {
-			url: CONFIG.URL,
+			url: CONFIG.MEMBER_SETUP_URL,
 		}).catch((error) => {
 			return Promise.reject(error.code);
 		});

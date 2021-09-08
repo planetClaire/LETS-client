@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 
-import { LETS_GROUP_NAME } from '../../Constants';
+import { LETS_GROUP } from '../../Constants';
 import { useAuth } from '../auth/useAuth';
 import Logo from '../Logo';
 import useGravatar from '../auth/useGravatar';
@@ -37,7 +37,7 @@ export default function MainMenu() {
 									<Link to="/">
 										<Logo size="9" className="inline mr-2" />
 										<span className="sr-only lg:not-sr-only font-bold">
-											{LETS_GROUP_NAME}
+											{LETS_GROUP.NAME}
 										</span>
 									</Link>
 								</div>

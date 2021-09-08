@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
-import { LETS_GROUP_NAME } from '../../Constants';
+import { LETS_GROUP } from '../../Constants';
 import Logo from '../Logo';
 import { ReactComponent as GoogleLogo } from '../../images/Google__G__Logo.svg';
 import { useAuth } from '../auth/useAuth';
@@ -33,7 +33,7 @@ export default function Register() {
 					Register
 				</h2>
 				<p className="mt-2 text-center text-sm text-gray-600">
-					Become a member of {LETS_GROUP_NAME}
+					Become a member of {LETS_GROUP.NAME}
 				</p>
 			</div>
 
