@@ -8,12 +8,14 @@ import { useAuth } from './useAuth.js';
 import Success from '../alerts/Success';
 import Alert from '../alerts/Error';
 import { GET_MEMBER } from '../../graphql/fields';
+import useGravatar from './useGravatar';
 
 export default function SetupMember() {
 	const auth = useAuth();
 	const [message, setMessage] = useState();
 	const [errorMessage, setErrorMessage] = useState();
 	const [user, setUser] = useState();
+	const [gravatarImageUrl] = useGravatar();
 
 	const [getMember, { loading, error, data }] = useLazyQuery(GET_MEMBER);
 
