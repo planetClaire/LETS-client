@@ -1,12 +1,12 @@
 import { useQuery } from '@apollo/client';
 
-import Loading from '../components/alerts/Loading';
-import Alert from '../components/alerts/Error';
-import Main from '../components/Main';
-import Header from '../components/Header';
-import { GET_LOCALITIES } from '../graphql/fields';
+import Header from '../Header';
+import Main from '../Main';
+import Loading from '../alerts/Loading';
+import Alert from '../alerts/Error';
+import { GET_LOCALITIES } from '../../graphql/fields';
 
-export default function Localities() {
+export default function LocalitiesAdmin() {
 	const { loading, error, data } = useQuery(GET_LOCALITIES);
 
 	if (loading) return <Loading />;
@@ -14,7 +14,7 @@ export default function Localities() {
 
 	return (
 		<>
-			<Header title="Localities"></Header>
+			<Header title="Localities Admin"></Header>
 			<Main>
 				{data.localities.map(({ name, postcode }) => (
 					<div key={name}>
@@ -23,7 +23,6 @@ export default function Localities() {
 						</p>
 					</div>
 				))}
-				;
 			</Main>
 		</>
 	);

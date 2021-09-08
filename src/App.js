@@ -25,6 +25,8 @@ import './index.css';
 import { CONFIG } from './Constants';
 import MemberRoute from './components/auth/MemberRoute';
 import SetupMember from './components/auth/SetupMember';
+import AdminRoute from './components/auth/AdminRoute';
+import LocalitiesAdmin from './components/auth/LocalitiesAdmin';
 
 function App() {
 	const auth = useAuth();
@@ -95,6 +97,10 @@ function App() {
 					<Route exact path="/" component={Home} />
 					<MemberRoute path="/members" component={Members} />
 					<MemberRoute path="/localities" component={Localities} />
+					<AdminRoute
+						path="/admin/localities"
+						component={LocalitiesAdmin}
+					/>
 					<Route path="/login" component={Login} />
 					<Route path="/register" component={Register} />
 					<Route path="/verifyEmail" component={VerifyEmail} />
