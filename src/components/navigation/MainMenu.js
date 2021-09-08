@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
@@ -6,6 +6,7 @@ import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import { LETS_GROUP_NAME } from '../../Constants';
 import { useAuth } from '../auth/useAuth';
 import Logo from '../Logo';
+import { md5 } from 'hash-wasm';
 
 const navigation = [
 	{ name: 'Home', href: '/', current: true },
@@ -23,6 +24,12 @@ function classNames(...classes) {
 
 export default function MainMenu() {
 	const auth = useAuth();
+	const [gravatar, setGravatar] = useState();
+	useEffect(() => {
+		if (auth && auth.user) {
+			md5(auth.user.email.toLowerCase()).then((r) => setGravatar(r));
+		}
+	}, [auth, setGravatar]);
 
 	return (
 		<Disclosure as="nav" className="bg-white border-b border-gray-200">
@@ -68,7 +75,7 @@ export default function MainMenu() {
 													className="h-8 w-8 rounded-full"
 													src={
 														auth.user.photoURL ||
-														`https://avatars.dicebear.com/api/bottts/${auth.user.uid}.svg`
+														`https://www.gravatar.com/avatar/${gravatar}?d=mp`
 													}
 													alt={auth.user.displayName}
 												/>
