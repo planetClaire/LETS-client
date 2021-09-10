@@ -40,11 +40,9 @@ function App() {
 
 		const errorLink = onError(({ graphQLErrors, networkError }) => {
 			if (graphQLErrors) {
-				graphQLErrors.map(({ message, locations, path }) => {
+				graphQLErrors.map(({ message, path }) => {
 					console.log(
-						`[GraphQL error]: Message: ${message}, Location: ${locations.map(
-							(l) => 'line ' + l.line + ', column ' + l.column
-						)}, Path: ${path}`
+						`[GraphQL error]: Message: ${message}, Path: ${path}`
 					);
 					setError(message);
 					return null;
