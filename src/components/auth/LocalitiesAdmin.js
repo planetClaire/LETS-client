@@ -16,6 +16,7 @@ import {
 	GET_LOCALITIES,
 	UPDATE_LOCALITY,
 } from '../../graphql/fields';
+import { formatErrors } from '../../Helpers';
 
 export default function LocalitiesAdmin() {
 	const [message, setMessage] = useState();
@@ -72,7 +73,7 @@ export default function LocalitiesAdmin() {
 					if (result.locality) {
 						setMessage('Successfully created new locality');
 					} else if (result.userErrors) {
-						formatErrors(result.userErrors);
+						setErrorMessage(formatErrors(result.userErrors));
 					}
 				}
 			});
@@ -84,7 +85,7 @@ export default function LocalitiesAdmin() {
 				if (result.locality) {
 					setMessage('Successfully updated locality');
 				} else if (result.userErrors) {
-					formatErrors(result.userErrors);
+					setErrorMessage(formatErrors(result.userErrors));
 				}
 			});
 		}
@@ -121,10 +122,6 @@ export default function LocalitiesAdmin() {
 				}
 			}
 		});
-	};
-
-	const formatErrors = (errors) => {
-		setErrorMessage(errors.map((e) => e.message).join('\n'));
 	};
 
 	if (loading || addLoading || updateLoading || deleteLoading)
