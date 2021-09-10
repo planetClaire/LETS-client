@@ -42,7 +42,9 @@ function App() {
 			if (graphQLErrors) {
 				graphQLErrors.map(({ message, locations, path }) => {
 					console.log(
-						`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+						`[GraphQL error]: Message: ${message}, Location: ${locations.map(
+							(l) => 'line ' + l.line + ', column ' + l.column
+						)}, Path: ${path}`
 					);
 					setError(message);
 					return null;
