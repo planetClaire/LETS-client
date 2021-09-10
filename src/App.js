@@ -66,7 +66,13 @@ function App() {
 			};
 		});
 
-		const cache = new InMemoryCache();
+		const cache = new InMemoryCache({
+			typePolicies: {
+				Locality: {
+					keyFields: ['uid'],
+				},
+			},
+		});
 
 		const client = new ApolloClient({
 			link: authLink.concat(from([errorLink, httpLink])),
