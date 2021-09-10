@@ -70,6 +70,7 @@ function App() {
 
 		const client = new ApolloClient({
 			link: authLink.concat(from([errorLink, httpLink])),
+			connectToDevTools: true,
 			cache,
 			defaultOptions: {
 				watchQuery: {
