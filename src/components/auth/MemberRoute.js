@@ -9,7 +9,7 @@ export default function MemberRoute({ component: Component, ...rest }) {
 	const auth = useAuth();
 	const [user, setUser] = useState();
 
-	const [getMember, { loading, error, data }] = useLazyQuery(GET_MEMBER);
+	const [getMember, { data }] = useLazyQuery(GET_MEMBER);
 
 	useEffect(() => {
 		if (auth.user !== undefined && auth.user !== null) {

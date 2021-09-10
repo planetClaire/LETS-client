@@ -11,4 +11,5 @@ export const CONFIG = process.env.NODE_ENV === 'development' ? DEV : PROD;
 export const LETS_GROUP = {
 	NAME: 'Your LETS Group',
 	COUNTRY: 'Australia',
+	STATE_PROVINCE: 'Western Australia',
 };

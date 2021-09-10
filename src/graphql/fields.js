@@ -8,6 +8,18 @@ const LOCALITY_ATTRIBUTES = gql`
 	}
 `;
 
+const MEMBER_ATTRIBUTES = gql`
+	fragment MemberInfo on Member {
+		id
+		firstName
+		lastName
+		phone
+		localityId
+		streetAddress
+		approved
+	}
+`;
+
 export const GET_LOCALITIES = gql`
 	query GetLocalities {
 		localities {
@@ -15,16 +27,6 @@ export const GET_LOCALITIES = gql`
 		}
 	}
 	${LOCALITY_ATTRIBUTES}
-`;
-
-export const GET_MEMBER = gql`
-	query GetMember($id: ID!) {
-		member(id: $id) {
-			approved
-			firstName
-			lastName
-		}
-	}
 `;
 
 export const ADD_LOCALITY = gql`
@@ -67,4 +69,36 @@ export const DELETE_LOCALITY = gql`
 		}
 	}
 	${LOCALITY_ATTRIBUTES}
+`;
+
+export const GET_MEMBER = gql`
+	query GetMember($id: ID!) {
+		member(id: $id) {
+			...MemberInfo
+		}
+	}
+	${MEMBER_ATTRIBUTES}
+`;
+
+export const GET_MEMBERS = gql`
+	query GetMembers {
+		members {
+			...MemberInfo
+		}
+	}
+	${MEMBER_ATTRIBUTES}
+`;
+
+export const ADD_MEMBER = gql`
+	mutation addMember($member: AddMemberInput!) {
+		addMember(input: $member) {
+			member {
+				...MemberInfo
+			}
+			userErrors {
+				message
+			}
+		}
+	}
+	${MEMBER_ATTRIBUTES}
 `;
