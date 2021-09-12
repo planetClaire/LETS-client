@@ -49,7 +49,8 @@ function App() {
 				});
 			}
 			if (networkError) {
-				console.log(`[Network error]: ${networkError}`);
+				setError(`[Network error]: ${networkError}`);
+				return null;
 			}
 		});
 
