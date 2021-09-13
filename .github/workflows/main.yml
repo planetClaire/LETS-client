@@ -33,7 +33,7 @@ jobs:
           # The path to the file to write
           path: 'src/FirebaseConfig.js'
           # The contents of the file
-          contents: "{	apiKey: '',	authDomain: '',	projectId: '',	storageBucket: '',	messagingSenderId: '',	appId: ''}"
+          contents: "{ apiKey: '', authDomain: '', projectId: '', storageBucket: '', messagingSenderId: '', appId: ''};"
     
     # Runs a single command using the runners shell
       - name: Run tests
