@@ -22,9 +22,9 @@ export default function MemberRoute({ component: Component, ...rest }) {
 		}
 	}, [auth, getMember]);
 
+	console.log('user', user);
 	return (
-		user !== undefined &&
-		data !== undefined && (
+		user !== undefined && (
 			<Route
 				{...rest}
 				render={({ location }) => {
@@ -39,7 +39,7 @@ export default function MemberRoute({ component: Component, ...rest }) {
 						);
 					} else if (!user.emailVerified) {
 						return <Redirect to={{ pathname: '/verifyEmail' }} />;
-					} else if (!data.member || !data.member.approved) {
+					} else if (!data?.member || !data.member.approved) {
 						return <Redirect to="/setupMember" />;
 					}
 					return <Component />;

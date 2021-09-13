@@ -23,6 +23,7 @@ export default function Login() {
 				setErrorMessage(`Error: ${errorCode.replace('-', ' ')}`);
 			}
 		);
+	console.log('login');
 	return (
 		<div className="flex flex-col justify-center ">
 			<div className="sm:mx-auto sm:w-full sm:max-w-md">
