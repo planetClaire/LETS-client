@@ -10,7 +10,6 @@ import { useForm } from 'react-hook-form';
 
 import Header from '../Header';
 import Main from '../Main';
-import { useAuth } from './useAuth.js';
 import {
 	GET_MEMBER,
 	GET_LOCALITIES,
@@ -22,6 +21,7 @@ import { LETS_GROUP } from '../../Constants';
 import Success from '../alerts/Success';
 import Alert from '../alerts/Error';
 import { formatErrors } from '../../Helpers';
+import { AuthContext } from '../../App';
 
 export default function SetupMember() {
 	const [message, setMessage] = useState();
@@ -29,7 +29,7 @@ export default function SetupMember() {
 	const [user, setUser] = useState();
 	const [email, setEmail] = useState();
 	const [id, setId] = useState();
-	const auth = useAuth();
+	const auth = useContext(AuthContext);
 	const [gravatarImageUrl] = useGravatar();
 
 	const client = useApolloClient();

@@ -1,5 +1,5 @@
 import { BrowserRouter, Route } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import {
 	ApolloClient,
 	InMemoryCache,
@@ -17,7 +17,7 @@ import MainMenu from './components/navigation/MainMenu';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import VerifyEmail from './components/auth/VerifyEmail';
-import { useAuth } from './components/auth/useAuth';
+import { useProvideAuth } from './components/auth/useAuth';
 import Loading from './components/alerts/Loading';
 import Alert from './components/alerts/Error';
 
@@ -28,8 +28,10 @@ import SetupMember from './components/auth/SetupMember';
 import AdminRoute from './components/auth/AdminRoute';
 import LocalitiesAdmin from './components/auth/LocalitiesAdmin';
 
+export const AuthContext = createContext();
+
 function App() {
-	const auth = useAuth();
+	const provideAuth = useProvideAuth();
 	const [client, setClient] = useState();
 	const [error, setError] = useState();
 
@@ -55,7 +57,10 @@ function App() {
 		});
 
 		const authLink = setContext(async (_, { headers }) => {
-			let token = auth && auth.user && (await auth.user.getIdToken());
+			let token =
+				provideAuth.auth &&
+				provideAuth.auth.user &&
+				(await provideAuth.auth.user.getIdToken());
 			// return the headers to the context so httpLink can read them
 			return {
 				headers: {
@@ -93,29 +98,31 @@ function App() {
 		setClient(client);
 
 		return () => {};
-	}, [auth]);
+	}, [provideAuth.auth]);
 
 	if (client === undefined) return <Loading />;
 	return (
-		<ApolloProvider client={client}>
-			<BrowserRouter>
-				<MainMenu />
-				<div className="min-h-screen bg-gray-50 py-6 sm:px-6 lg:px-8">
-					{error && <Alert message={error} />}
-					<Route exact path="/" component={Home} />
-					<MemberRoute path="/members" component={Members} />
-					<MemberRoute path="/localities" component={Localities} />
-					<AdminRoute
-						path="/admin/localities"
-						component={LocalitiesAdmin}
-					/>
-					<Route path="/login" component={Login} />
-					<Route path="/register" component={Register} />
-					<Route path="/verifyEmail" component={VerifyEmail} />
-					<Route path="/setupMember" component={SetupMember} />
-				</div>
-			</BrowserRouter>
-		</ApolloProvider>
+		<AuthContext.Provider value={provideAuth}>
+			<ApolloProvider client={client}>
+				<BrowserRouter>
+					<MainMenu />
+					<div className="min-h-screen bg-gray-50 py-6 sm:px-6 lg:px-8">
+						{error && <Alert message={error} />}
+						<Route exact path="/" component={Home} />
+						<MemberRoute path="/members" component={Members} />
+						<MemberRoute path="/localities" component={Localities} />
+						<AdminRoute
+							path="/admin/localities"
+							component={LocalitiesAdmin}
+						/>
+						<Route path="/login" component={Login} />
+						<Route path="/register" component={Register} />
+						<Route path="/verifyEmail" component={VerifyEmail} />
+						<Route path="/setupMember" component={SetupMember} />
+					</div>
+				</BrowserRouter>
+			</ApolloProvider>
+		</AuthContext.Provider>
 	);
 }
 

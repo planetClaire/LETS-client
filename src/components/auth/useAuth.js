@@ -1,6 +1,6 @@
 // adapted from https://usehooks.com/
 
-import React, { useState, useEffect, useContext, createContext } from 'react';
+import { useState, useEffect } from 'react';
 import { initializeApp } from '@firebase/app';
 import {
 	getAuth,
@@ -16,20 +16,9 @@ import { CONFIG } from '../../Constants';
 
 // Add your Firebase credentials
 initializeApp(FIREBASE_CONFIG);
-const authContext = createContext();
-// Provider component that wraps your app and makes auth object ...
-// ... available to any child component that calls useAuth().
-export function ProvideAuth({ children }) {
-	const auth = useProvideAuth();
-	return <authContext.Provider value={auth}>{children}</authContext.Provider>;
-}
-// Hook for child components to get the auth object ...
-// ... and re-render when it changes.
-export const useAuth = () => {
-	return useContext(authContext);
-};
+
 // Provider hook that creates auth object and handles state
-function useProvideAuth() {
+export function useProvideAuth() {
 	const [user, setUser] = useState(null);
 	const auth = getAuth();
 	const googleProvider = new GoogleAuthProvider();

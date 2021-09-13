@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { useLazyQuery } from '@apollo/client';
 
-import { useAuth } from './useAuth';
 import { GET_MEMBER } from '../../graphql/fields';
+import { AuthContext } from '../../App';
 
 export default function MemberRoute({ component: Component, ...rest }) {
-	const auth = useAuth();
+	const auth = useContext(AuthContext);
 	const [user, setUser] = useState();
 
 	const [getMember, { data }] = useLazyQuery(GET_MEMBER);

@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { md5 } from 'hash-wasm';
-
-import { useAuth } from '../auth/useAuth';
+import { AuthContext } from '../../App';
 
 export default function useGravatar() {
 	const [imageUrl, setImageUrl] = useState();
-	const auth = useAuth();
+	const auth = useContext(AuthContext);
 	const gravatarUrl = 'https://www.gravatar.com/';
+
 	useEffect(() => {
 		if (auth && auth.user) {
 			md5(auth.user.email.toLowerCase()).then((r) => {
@@ -14,5 +14,6 @@ export default function useGravatar() {
 			});
 		}
 	}, [auth, setImageUrl]);
+
 	return [imageUrl];
 }

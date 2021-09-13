@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-
-import { useAuth } from './useAuth';
+import { AuthContext } from '../../App';
 
 export default function AdminRoute({ component: Component, ...rest }) {
-	const auth = useAuth();
+	const auth = useContext(AuthContext);
 	const [, setUser] = useState();
 	const [isAdmin, setIsAdmin] = useState(false);
 	const [ready, setReady] = useState(false);

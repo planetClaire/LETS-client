@@ -1,15 +1,15 @@
 import { MailIcon } from '@heroicons/react/solid';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import Header from '../Header';
 import Main from '../Main';
-import { useAuth } from './useAuth.js';
 import Success from '../alerts/Success';
 import Alert from '../alerts/Error';
+import { AuthContext } from '../../App';
 
 export default function VerifyEmail() {
-	const auth = useAuth();
+	const auth = useContext(AuthContext);
 	const [message, setMessage] = useState();
 	const [errorMessage, setErrorMessage] = useState();
 	const [sent, setSent] = useState(false);

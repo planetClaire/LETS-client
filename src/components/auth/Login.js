@@ -1,14 +1,14 @@
+import { useState, useContext } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import Logo from '../Logo';
 import { ReactComponent as GoogleLogo } from '../../images/Google__G__Logo.svg';
-import { useAuth } from '../auth/useAuth';
 import Alert from '../alerts/Error';
-import { useState } from 'react';
+import { AuthContext } from '../../App';
 
 export default function Login() {
-	const auth = useAuth();
+	const auth = useContext(AuthContext);
 	let history = useHistory();
 	let location = useLocation();
 	const { register, handleSubmit } = useForm();

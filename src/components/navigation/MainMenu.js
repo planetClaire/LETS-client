@@ -1,12 +1,12 @@
-import { Fragment } from 'react';
+import { Fragment, useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 
 import { LETS_GROUP } from '../../Constants';
-import { useAuth } from '../auth/useAuth';
 import Logo from '../Logo';
 import useGravatar from '../auth/useGravatar';
+import { AuthContext } from '../../App';
 
 const navigation = [
 	{ name: 'Home', href: '/', current: true },
@@ -23,7 +23,7 @@ function classNames(...classes) {
 }
 
 export default function MainMenu() {
-	const auth = useAuth();
+	const auth = useContext(AuthContext);
 	const [gravatarImageUrl] = useGravatar();
 
 	return (

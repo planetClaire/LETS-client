@@ -1,16 +1,16 @@
+import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import { LETS_GROUP } from '../../Constants';
 import Logo from '../Logo';
 import { ReactComponent as GoogleLogo } from '../../images/Google__G__Logo.svg';
-import { useAuth } from '../auth/useAuth';
-import { useState } from 'react';
 import Success from '../alerts/Success';
 import Alert from '../alerts/Error';
+import { AuthContext } from '../../App';
 
 export default function Register() {
-	const auth = useAuth();
+	const auth = useContext(AuthContext);
 	const [message, setMessage] = useState();
 	const [errorMessage, setErrorMessage] = useState();
 	const { register, handleSubmit } = useForm();
