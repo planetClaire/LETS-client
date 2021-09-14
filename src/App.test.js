@@ -89,6 +89,15 @@ const component = (mock) => (
 	</AuthContext.Provider>
 );
 
+const unverifiedUser = {
+	uid: 'userid',
+	email: 'email@example.com',
+	emailVerified: false,
+};
+
+const waitForApolloToResolve = async () =>
+	await waitFor(() => new Promise((resolve) => setTimeout(resolve, 0)));
+
 test('Renders LETS Group name', () => {
 	render(component());
 	expect(screen.getByText(LETS_GROUP.NAME)).toBeInTheDocument();
@@ -101,15 +110,6 @@ test('Redirects unauthenticated user to login page on request of a member route'
 		expect(screen.getByText(TITLES.LOGIN)).toBeInTheDocument();
 	});
 });
-
-const unverifiedUser = {
-	uid: 'userid',
-	email: 'email@example.com',
-	emailVerified: false,
-};
-
-const waitForApolloToResolve = async () =>
-	await waitFor(() => new Promise((resolve) => setTimeout(resolve, 0)));
 
 test('Redirects authenticated user to email verification page if their email is unverified - no matching member', async () => {
 	provideAuth.user = unverifiedUser;
