@@ -15,5 +15,5 @@ export default function useGravatar() {
 		}
 	}, [auth, setImageUrl]);
 
-	return [imageUrl];
+	return imageUrl;
 }

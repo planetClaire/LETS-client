@@ -13,3 +13,8 @@ export const LETS_GROUP = {
 	COUNTRY: 'Australia',
 	STATE_PROVINCE: 'Western Australia',
 };
+
+export const TITLES = {
+	VERIFY_EMAIL: 'Verify your email address',
+	LOGIN: 'Login to your account',
+};

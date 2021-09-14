@@ -7,6 +7,7 @@ import Main from '../Main';
 import Success from '../alerts/Success';
 import Alert from '../alerts/Error';
 import { AuthContext } from '../../App';
+import { TITLES } from '../../Constants';
 
 export default function VerifyEmail() {
 	const auth = useContext(AuthContext);
@@ -39,7 +40,7 @@ export default function VerifyEmail() {
 		<Redirect to="/" />
 	) : (
 		<>
-			<Header title="Verify your email address"></Header>
+			<Header title={TITLES.VERIFY_EMAIL}></Header>
 			<Main>
 				{message && <Success message={message} className="mb-4" />}
 				{errorMessage && <Alert message={errorMessage} className="mb-4" />}

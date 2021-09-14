@@ -24,7 +24,7 @@ function classNames(...classes) {
 
 export default function MainMenu() {
 	const auth = useContext(AuthContext);
-	const [gravatarImageUrl] = useGravatar();
+	const gravatarImageUrl = useGravatar();
 
 	return (
 		<Disclosure as="nav" className="bg-white border-b border-gray-200">

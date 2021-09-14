@@ -6,6 +6,7 @@ import Logo from '../Logo';
 import { ReactComponent as GoogleLogo } from '../../images/Google__G__Logo.svg';
 import Alert from '../alerts/Error';
 import { AuthContext } from '../../App';
+import { TITLES } from '../../Constants';
 
 export default function Login() {
 	const auth = useContext(AuthContext);
@@ -23,13 +24,12 @@ export default function Login() {
 				setErrorMessage(`Error: ${errorCode.replace('-', ' ')}`);
 			}
 		);
-	console.log('login');
 	return (
 		<div className="flex flex-col justify-center ">
 			<div className="sm:mx-auto sm:w-full sm:max-w-md">
 				<Logo />
 				<h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-					Login to your account{' '}
+					{TITLES.LOGIN}
 				</h2>
 			</div>
 

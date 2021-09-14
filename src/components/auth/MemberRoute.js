@@ -21,8 +21,6 @@ export default function MemberRoute({ component: Component, ...rest }) {
 			}
 		}
 	}, [auth, getMember]);
-
-	console.log('user', user);
 	return (
 		user !== undefined && (
 			<Route
