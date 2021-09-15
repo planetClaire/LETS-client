@@ -15,8 +15,17 @@ export const LETS_GROUP = {
 };
 
 export const TITLES = {
+	HOME: `Welcome to ${LETS_GROUP.NAME}`,
 	VERIFY_EMAIL: 'Verify your email address',
 	LOGIN: 'Login to your account',
 	SETUP_YOUR_MEMBERSHIP: 'Set up your membership',
 	MEMBERS: 'Members list',
+};
+
+export const LABELS = {
+	FIRST_NAME: 'First name',
+};
+
+export const MESSAGES = {
+	SETUP_SUBMITTED: `You've successfully submitted your application for membership to ${LETS_GROUP.NAME}. Your details will be checked and you will hear from us when your application has been processed.`,
 };
