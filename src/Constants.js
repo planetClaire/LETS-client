@@ -17,4 +17,6 @@ export const LETS_GROUP = {
 export const TITLES = {
 	VERIFY_EMAIL: 'Verify your email address',
 	LOGIN: 'Login to your account',
+	SETUP_YOUR_MEMBERSHIP: 'Set up your membership',
+	MEMBERS: 'Members list',
 };

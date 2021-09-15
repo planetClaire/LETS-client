@@ -34,6 +34,7 @@ function App() {
 	const provideAuth = useProvideAuth();
 	const [client, setClient] = useState();
 	const [error, setError] = useState();
+	const user = provideAuth.user;
 
 	useEffect(() => {
 		const httpLink = new HttpLink({
@@ -57,10 +58,7 @@ function App() {
 		});
 
 		const authLink = setContext(async (_, { headers }) => {
-			let token =
-				provideAuth.auth &&
-				provideAuth.auth.user &&
-				(await provideAuth.auth.user.getIdToken());
+			let token = user && (await user.getIdToken());
 			// return the headers to the context so httpLink can read them
 			return {
 				headers: {
@@ -98,7 +96,7 @@ function App() {
 		setClient(client);
 
 		return () => {};
-	}, [provideAuth.auth]);
+	}, [user]);
 
 	if (client === undefined) return <Loading />;
 	return (
