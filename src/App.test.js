@@ -10,12 +10,14 @@ import { AuthContext } from './App';
 import { LABELS, LETS_GROUP, MESSAGES, TITLES } from './Constants';
 import MainMenu from './components/navigation/MainMenu';
 import MemberRoute from './components/auth/MemberRoute';
+import AdminRoute from './components/auth/AdminRoute';
 import Members from './pages/Members';
 import Login from './components/auth/Login';
 import VerifyEmail from './components/auth/VerifyEmail';
 import SetupMember from './components/auth/SetupMember';
-import { GET_MEMBER } from './graphql/fields';
+import { GET_LOCALITIES, GET_MEMBER } from './graphql/fields';
 import Home from './pages/Home';
+import LocalitiesAdmin from './components/auth/LocalitiesAdmin';
 
 jest.mock('./components/auth/useGravatar');
 
@@ -85,7 +87,7 @@ test('Redirects unauthenticated user to login page on request of a member route'
 });
 
 test('Redirects authenticated user to email verification page if their email is unverified - no matching member', async () => {
-	const uid = 'unverified-user-id';
+	const uid = uuidv4();
 	provideAuth.user = {
 		uid: uid,
 		emailVerified: false,
@@ -112,7 +114,7 @@ test('Redirects authenticated user to email verification page if their email is 
 });
 
 test('Redirects authenticated user to email verification page if their email is unverified - matching unapproved member', async () => {
-	const uid = '123';
+	const uid = uuidv4();
 	provideAuth.user = {
 		uid: uid,
 		emailVerified: false,
@@ -142,7 +144,7 @@ test('Redirects authenticated user to email verification page if their email is 
 });
 
 test('Redirects authenticated user to email verification page if their email is unverified - matching approved member', async () => {
-	const uid = '456';
+	const uid = uuidv4();
 	provideAuth.user = {
 		uid: uid,
 		emailVerified: false,
@@ -172,7 +174,7 @@ test('Redirects authenticated user to email verification page if their email is 
 });
 
 test('Redirects verified user to member setup - no matching member', async () => {
-	const uid = '789';
+	const uid = uuidv4();
 	provideAuth.user = {
 		uid: uid,
 		emailVerified: true,
@@ -201,7 +203,7 @@ test('Redirects verified user to member setup - no matching member', async () =>
 });
 
 test('Redirects verified user to member setup - matching unapproved member', async () => {
-	const uid = '012';
+	const uid = uuidv4();
 	provideAuth.user = {
 		uid: uid,
 		emailVerified: true,
@@ -233,7 +235,7 @@ test('Redirects verified user to member setup - matching unapproved member', asy
 });
 
 test('Displays Members page to approved member', async () => {
-	const uid = '345';
+	const uid = uuidv4();
 	provideAuth.user = {
 		uid: uid,
 		emailVerified: true,
@@ -271,7 +273,6 @@ test('Setup member: redirects unauthenticated user to Login', async () => {
 			<AuthContext.Provider value={provideAuth}>
 				<MockedProvider mocks={[]} cache={cache}>
 					<Router history={history}>
-						<MainMenu />
 						<Route path="/login" component={Login} />
 						<Route path="/setupMember" component={SetupMember} />
 					</Router>
@@ -287,7 +288,7 @@ test('Setup member: redirects unauthenticated user to Login', async () => {
 
 test('Setup Member - redirects already approved member to Home', async () => {
 	const history = createMemoryHistory();
-	const uid = '345';
+	const uid = uuidv4();
 	provideAuth.user = {
 		uid: uid,
 		emailVerified: true,
@@ -313,7 +314,6 @@ test('Setup Member - redirects already approved member to Home', async () => {
 					cache={cache}
 				>
 					<Router history={history}>
-						<MainMenu />
 						<Route path="/" component={Home} />
 						<Route path="/setupMember" component={SetupMember} />
 					</Router>
@@ -329,7 +329,7 @@ test('Setup Member - redirects already approved member to Home', async () => {
 
 test('Setup member - displays setup form for non-existing member (verified user)', async () => {
 	const history = createMemoryHistory();
-	const uid = '678';
+	const uid = uuidv4();
 	provideAuth.user = {
 		uid: uid,
 		emailVerified: true,
@@ -348,7 +348,6 @@ test('Setup member - displays setup form for non-existing member (verified user)
 					cache={cache}
 				>
 					<Router history={history}>
-						<MainMenu />
 						<Route path="/" component={Home} />
 						<Route path="/setupMember" component={SetupMember} />
 					</Router>
@@ -395,7 +394,6 @@ test('Setup member - displays already applied message to unapproved member', asy
 					cache={cache}
 				>
 					<Router history={history}>
-						<MainMenu />
 						<Route path="/" component={Home} />
 						<Route path="/setupMember" component={SetupMember} />
 					</Router>
@@ -411,4 +409,134 @@ test('Setup member - displays already applied message to unapproved member', asy
 		expect(screen.getByText(MESSAGES.SETUP_SUBMITTED)).toBeInTheDocument();
 		expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
 	});
+});
+
+test('Admin route - kicks unauthenticated user to home page', async () => {
+	provideAuth.user = false;
+	const history = createMemoryHistory();
+	history.push('/admin/localities');
+	await waitFor(() =>
+		render(
+			<AuthContext.Provider value={provideAuth}>
+				<MockedProvider mocks={[]} cache={cache}>
+					<Router history={history}>
+						<Route path="/" component={Home} />
+						<AdminRoute
+							path="/admin/localities"
+							component={LocalitiesAdmin}
+						/>
+					</Router>
+				</MockedProvider>
+			</AuthContext.Provider>
+		)
+	);
+	await waitFor(() =>
+		expect(screen.getByText(TITLES.HOME)).toBeInTheDocument()
+	);
+});
+
+test('Admin route - kicks non-admin member to home page', async () => {
+	const uid = uuidv4();
+	provideAuth.user = {
+		uid: uid,
+		emailVerified: true,
+		getIdTokenResult: () =>
+			Promise.resolve({
+				claims: { admin: false },
+			}),
+	};
+	const history = createMemoryHistory();
+	history.push('/admin/localities');
+	await waitFor(() =>
+		render(
+			<AuthContext.Provider value={provideAuth}>
+				<MockedProvider
+					mocks={[
+						{
+							request: getMemberRequest(uid),
+							result: {
+								data: {
+									member: {
+										...memberAttributes(uid),
+										approved: true,
+									},
+								},
+							},
+						},
+					]}
+					cache={cache}
+				>
+					<Router history={history}>
+						<Route path="/" component={Home} />
+						<AdminRoute
+							path="/admin/localities"
+							component={LocalitiesAdmin}
+						/>
+					</Router>
+				</MockedProvider>
+			</AuthContext.Provider>
+		)
+	);
+	await waitForApolloToResolve();
+	await waitFor(() =>
+		expect(screen.getByText(TITLES.HOME)).toBeInTheDocument()
+	);
+});
+
+test('Admin route - displays content to admin member', async () => {
+	const uid = uuidv4();
+	provideAuth.user = {
+		uid: uid,
+		emailVerified: true,
+		getIdTokenResult: () =>
+			Promise.resolve({
+				claims: { admin: true },
+			}),
+	};
+	const history = createMemoryHistory();
+	history.push('/admin/localities');
+	await waitFor(() =>
+		render(
+			<AuthContext.Provider value={provideAuth}>
+				<MockedProvider
+					mocks={[
+						{
+							request: getMemberRequest(uid),
+							result: {
+								data: {
+									member: {
+										...memberAttributes(uid),
+										approved: true,
+									},
+								},
+							},
+						},
+						{
+							request: {
+								query: GET_LOCALITIES,
+							},
+							result: {
+								data: {
+									localities: [],
+								},
+							},
+						},
+					]}
+					cache={cache}
+				>
+					<Router history={history}>
+						<Route path="/" component={Home} />
+						<AdminRoute
+							path="/admin/localities"
+							component={LocalitiesAdmin}
+						/>
+					</Router>
+				</MockedProvider>
+			</AuthContext.Provider>
+		)
+	);
+	await waitForApolloToResolve();
+	await waitFor(() =>
+		expect(screen.getByText(TITLES.LOCALITIES_ADMIN)).toBeInTheDocument()
+	);
 });

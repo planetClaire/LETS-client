@@ -89,7 +89,7 @@ export default function SetupMember() {
 			}
 		});
 	};
-	if (user === undefined) {
+	if (user === undefined || addMemberLoading) {
 		return <Loading />;
 	}
 	if (user === false) {

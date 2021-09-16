@@ -17,6 +17,7 @@ import {
 	UPDATE_LOCALITY,
 } from '../../graphql/fields';
 import { formatErrors } from '../../Helpers';
+import { TITLES } from '../../Constants';
 
 export default function LocalitiesAdmin() {
 	const [message, setMessage] = useState();
@@ -129,7 +130,7 @@ export default function LocalitiesAdmin() {
 
 	return (
 		<>
-			<Header title="Localities Admin"></Header>
+			<Header title={TITLES.LOCALITIES_ADMIN}></Header>
 			<Main>
 				<div className="flex flex-col">
 					<div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">

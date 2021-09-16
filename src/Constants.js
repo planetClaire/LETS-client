@@ -20,6 +20,7 @@ export const TITLES = {
 	LOGIN: 'Login to your account',
 	SETUP_YOUR_MEMBERSHIP: 'Set up your membership',
 	MEMBERS: 'Members list',
+	LOCALITIES_ADMIN: 'Localities Admin',
 };
 
 export const LABELS = {
